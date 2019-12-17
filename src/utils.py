@@ -41,7 +41,7 @@ def sample(preds, temperature=1.0): #temperature is the index of surprise in the
     return np.argmax(probas)
 
 def on_epoch_end(epoch, _):
-    data = get_text()
+    data, chars, size = get_text()
     length = 50;
     #this happens at the end of every epoch (cycle)
     print()
