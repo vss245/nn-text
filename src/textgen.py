@@ -1,5 +1,6 @@
 #based on https://keras.io/examples/lstm_text_generation/
 from __future__ import print_function
+import tensorflow as tf
 from keras.callbacks import LambdaCallback
 from keras.models import Sequential
 from keras.layers import Dense
@@ -67,19 +68,19 @@ def on_epoch_end(epoch, _):
         for i in range(400):
             x_pred = np.zeros((1, length, len(chars))) #vector for predictions
             for t, char in enumerate(sentence):
-                x_pred[0, t, char_indices[char]] = 1.
+                x_pred[0, t, char_idx[char]] = 1.
 
             preds = model.predict(x_pred, verbose=0)[0] #predict
             next_index = sample(preds, diversity)
-            next_char = indices_char[next_index]
+            next_char = idx_char[next_index]
 
             sentence = sentence[1:] + next_char
 
             sys.stdout.write(next_char)
             sys.stdout.flush()
         print()
-        
-print_callback = LambdaCallback(on_epoch_end=utils.on_epoch_end) #call our on_epoch_end function to print predicted text
+
+print_callback = LambdaCallback(on_epoch_end=on_epoch_end) #call our on_epoch_end function to print predicted text
 model.fit(x, y,
           batch_size=128,
           epochs=60,
