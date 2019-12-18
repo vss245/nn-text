@@ -20,7 +20,7 @@ def prepare():
         print('\t1: russian existentialism\n')
         print('\t2: apocalypse now but in text form\n')
         print('\t3: austrian existentialism\n')
-        print('\t4: icelandic short story - note: short and guaranteed to generate gobbledygook\n')
+        print('\t4: icelandic short story - note: short and sweet for testing only\n')
         text = input('type: ')
         name = files[text]
         filename = '../data/'+name+'.txt'

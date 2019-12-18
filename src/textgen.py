@@ -10,6 +10,7 @@ from keras.utils import plot_model
 from keras.optimizers import RMSprop
 from keras.utils.data_utils import get_file
 import utils
+import matplotlib.pyplot as plt
 import numpy as np
 import random
 import sys
@@ -84,11 +85,18 @@ def on_epoch_end(epoch, _):
 print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 #call our on_epoch_end function to print predicted text
 #make our model!
-model.fit(x, y,
+history = model.fit(x, y,
           batch_size=128,
           epochs=60,
           callbacks=[print_callback])
 #saving it
-path = '../models/text_model'+name+'-{epoch:02d}-{loss:.4f}.hdf5'
+path = '../models/'+name+'-{epoch:02d}-{loss:.4f}.hdf5'
 model.save(path)
 plot_model(model, to_file='../models/model.png')
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Model loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Test'], loc='upper left')
+plt.savefig('../models/'+name+'.png')
