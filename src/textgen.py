@@ -6,6 +6,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
 from keras.models import load_model
+from keras.utils import plot_model
 from keras.optimizers import RMSprop
 from keras.utils.data_utils import get_file
 import utils
@@ -90,3 +91,4 @@ model.fit(x, y,
 #saving it
 #idk what to base names on ¯\_(ツ)_/¯
 model.save('../models/text_model'+str(random.randint(0,10))+'.h5')
+plot_model(model, to_file='../models/model.png')
