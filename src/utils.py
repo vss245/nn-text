@@ -6,20 +6,28 @@ from keras.layers import Dense
 from keras.layers import LSTM
 from keras.optimizers import RMSprop
 from keras.utils.data_utils import get_file
-import utils
 import numpy as np
 import re
 import random
 import sys
 import io
-def get_text():
-    filename = '../data/heart.txt'
-    data = open(filename, 'r', encoding='utf-8').read()
-    data = data.lower()
-    #output = re.sub(r'\d+', '', raw_text)
-    return data
 
 def prepare():
+    #enclosing this so that we don't have to ask for user input twice
+    def get_text():
+        files = {'1':'prest_i_nakaz','2':'heart','3':'metamorphosis','4':'iceland'}
+        print('choose text:\n')
+        print('\t1: russian existentialism\n')
+        print('\t2: apocalypse now but in text form\n')
+        print('\t3: austrian existentialism\n')
+        print('\t4: icelandic short story - note: short and guaranteed to generate gobbledygook\n')
+        text = input('type: ')
+        filename = '../data/'+files[text]+'.txt'
+        data = open(filename, 'r', encoding='utf-8').read()
+        data = data.lower()
+        data = re.sub(r'\d+', '', data)
+        data = re.sub(r'^([0-9]+)|([IVXLCM]+)\\.?$', '', data)
+        return data
     data = get_text()
     length = 50 #50 chars in a seq
     step = 2
@@ -29,4 +37,4 @@ def prepare():
         sentences.append(data[i : i + length]) #chunks of sentences
         next_char.append(data[i + length]) #next character to predict
     print('your text has %d characters, i split it into %d sentences %d characters each' % (len(data), len(sentences), length))
-    return sentences, next_char, length
+    return data, sentences, next_char, length

@@ -5,6 +5,7 @@ from keras.callbacks import LambdaCallback
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
+from keras.models import load_model
 from keras.optimizers import RMSprop
 from keras.utils.data_utils import get_file
 import utils
@@ -13,15 +14,14 @@ import random
 import sys
 import io
 #LSTM to generate text
-print("loading text...")
-data = utils.get_text()
+data, sentences, next_char, length = utils.prepare()
 chars = list(set(data)) #unique characters
 size = len(chars)
+print("loading text...")
 #map between indexes and characters
 idx_char = {idx:char for idx, char in enumerate(chars)} #a number for every char
 char_idx= {char:idx for idx, char in enumerate(chars)} #a char for every number
 #to use keras, data needs to be in the format (nseq, len seq (how much to learn at a time), nfeatures (size))
-sentences, next_char, length = utils.prepare()
 #sparse representation (create vectors of mostly falses to represent sentences)
 x = np.zeros((len(sentences),length,len(chars)), dtype = np.bool)
 y = np.zeros((len(sentences),len(chars)), dtype = np.bool)
@@ -80,8 +80,13 @@ def on_epoch_end(epoch, _):
             sys.stdout.flush()
         print()
 
-print_callback = LambdaCallback(on_epoch_end=on_epoch_end) #call our on_epoch_end function to print predicted text
+print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
+#call our on_epoch_end function to print predicted text
+#make our model!
 model.fit(x, y,
           batch_size=128,
           epochs=60,
           callbacks=[print_callback])
+#saving it
+#idk what to base names on ¯\_(ツ)_/¯
+model.save('../models/text_model'+str(random.randint(0,10))+'.h5')
