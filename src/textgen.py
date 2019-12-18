@@ -15,7 +15,7 @@ import random
 import sys
 import io
 #LSTM to generate text
-data, sentences, next_char, length = utils.prepare()
+name, data, sentences, next_char, length = utils.prepare()
 chars = list(set(data)) #unique characters
 size = len(chars)
 print("loading text...")
@@ -89,6 +89,6 @@ model.fit(x, y,
           epochs=60,
           callbacks=[print_callback])
 #saving it
-#idk what to base names on ¯\_(ツ)_/¯
-model.save('../models/text_model'+str(random.randint(0,10))+'.h5')
+path = '../models/text_model'+name+'-{epoch:02d}-{loss:.4f}.hdf5'
+model.save(path)
 plot_model(model, to_file='../models/model.png')

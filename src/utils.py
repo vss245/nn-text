@@ -22,13 +22,14 @@ def prepare():
         print('\t3: austrian existentialism\n')
         print('\t4: icelandic short story - note: short and guaranteed to generate gobbledygook\n')
         text = input('type: ')
-        filename = '../data/'+files[text]+'.txt'
+        name = files[text]
+        filename = '../data/'+name+'.txt'
         data = open(filename, 'r', encoding='utf-8').read()
         data = data.lower()
         data = re.sub(r'\d+', '', data)
         data = re.sub(r'^([0-9]+)|([IVXLCM]+)\\.?$', '', data)
-        return data
-    data = get_text()
+        return data, name
+    data, name = get_text()
     length = 50 #50 chars in a seq
     step = 2
     sentences = []
@@ -37,4 +38,4 @@ def prepare():
         sentences.append(data[i : i + length]) #chunks of sentences
         next_char.append(data[i + length]) #next character to predict
     print('your text has %d characters, i split it into %d sentences %d characters each' % (len(data), len(sentences), length))
-    return data, sentences, next_char, length
+    return name, data, sentences, next_char, length

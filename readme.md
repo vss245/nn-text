@@ -5,3 +5,4 @@ currently implemented: generating text with an LSTM RNN
 https://keras.io/examples/lstm_text_generation/
 ## to do:
 add meta-function for tweaking params
+save final output into a file
