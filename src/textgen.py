@@ -94,7 +94,6 @@ path = '../models/'+name+'-{epoch:02d}-{loss:.4f}.hdf5'
 model.save(path)
 plot_model(model, to_file='../models/model.png')
 plt.plot(history.history['loss'])
-plt.plot(history.history['val_loss'])
 plt.title('Model loss')
 plt.ylabel('Loss')
 plt.xlabel('Epoch')
